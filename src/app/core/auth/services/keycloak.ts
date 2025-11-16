@@ -6,7 +6,7 @@ import Keycloak, {KeycloakInstance} from "keycloak-js";
 export class KeycloakService{
     private keycloak : KeycloakInstance = new Keycloak({
         url:'http://localhost:8080',
-        realm : 'watchfood_lanka_realms',
+        realm : 'watchfood_lanka',
         clientId : 'watchfood_lanka_frontend_app'
     });
 
