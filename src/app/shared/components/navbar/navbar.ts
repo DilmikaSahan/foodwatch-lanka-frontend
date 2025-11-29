@@ -13,4 +13,7 @@ export class Navbar {
   logout(){
     this.keycloak.logout();
   }
+  openAccount(){
+    window.location.href = 'http://localhost:8080/realms/watchfood_lanka/account';
+  }
 }

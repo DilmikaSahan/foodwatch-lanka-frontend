@@ -26,4 +26,22 @@ mat-toolbar-row {
     .spacer{
         flex: 1 1 auto;
     }
+    mat-button {
+        color: #f1f5f9;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        border-radius: 8px;
+        margin-left: 1rem;
+
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+    }
+    .nav-buttons{
+        display: flex;
+        gap: 1rem;
+    }
 }

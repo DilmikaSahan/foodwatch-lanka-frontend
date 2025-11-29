@@ -20,11 +20,12 @@ export class KeycloakService{
                 pkceMethod : 'S256'
             });
             if(auth){
-                const token = this.keycloak.token!;
-                console.log('Keycloak authentication successful. Token:', this.keycloak.tokenParsed);
-                this.sendTokenToBackend(token).subscribe({
-                    next: res => console.log('Token sent to backend successfully', res),
-                    error: err => console.error('Error sending token to backend', err)
+                console.log('token pardsed', this.keycloak.tokenParsed);
+
+                this.http.post('http://localhost:8081/api/v1/user/syncUser',{})
+                .subscribe({
+                    next: res => console.log('User synced/created successfully',res),
+                    error: err => console.error('Error Syncing user', err)
                 });
             }
             return true;
@@ -52,9 +53,5 @@ export class KeycloakService{
     getRoles(): string[]{
         return this.keycloak.realmAccess?.roles ?? [];
     }
-    sendTokenToBackend(token: string){
-        return this.http.post('http://localhost:8081', {token});
-    }
-
 
 }
