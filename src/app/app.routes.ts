@@ -11,7 +11,13 @@ export const routes: Routes = [
   {
     path: 'user',
     loadComponent: () => import('./features/dashboards/user-dashboard/user-dashboard').then(m => m.UserDashboard),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    children:[
+      {
+        path: 'complaints',
+        loadChildren: () => import('./features/complaints/complaints.routes').then(m => m.complaintRoutes)
+      }
+    ]
   },
   {
     path: 'officer',

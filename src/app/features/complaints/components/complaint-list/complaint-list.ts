@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Complaint } from '../../services/complaints.service';
 import {CommonModule} from '@angular/common';
-import { C } from '@angular/cdk/keycodes';
 
 
 @Component({

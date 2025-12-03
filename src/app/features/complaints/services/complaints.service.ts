@@ -26,6 +26,8 @@ export interface CreateComplaintPayload {
   district: string;
   city: string;
   location: string;
+  imageUrl: string[];
+  
 }
 
 export interface UpdateStatusPayload  {
@@ -43,6 +45,9 @@ export class ComplaintsService {
 
     getAllComplaints(): Observable<Complaint[]>{
         return this.http.get<Complaint[]>(`${this.baseUrl}/allComplaints`)
+    }
+    addComplaint(payload: CreateComplaintPayload): Observable<any> {
+      return this.http.post(`${this.baseUrl}/addComplaint`, payload);
     }
 
 }
