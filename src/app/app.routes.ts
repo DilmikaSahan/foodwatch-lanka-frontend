@@ -7,6 +7,12 @@ export const routes: Routes = [
     path: 'admin',
     loadComponent: () => import('./features/dashboards/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard),
     canActivate: [AuthGuard, RoleGuard],
+    children:[
+      {
+        path: 'complaints',
+        loadChildren: () => import('./features/complaints/complaints.routes').then(m => m.complaintRoutes)
+      }
+    ]
   },
   {
     path: 'user',

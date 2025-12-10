@@ -9,6 +9,16 @@ export interface UserStatistics {
   totalAdmins: number;
   totalRegularUsers: number;
 }
+
+export interface UserDetails{
+    id: number;
+    fullName: string;
+    email: string;
+    role: string;
+    phoneNumber: string;
+    createAT: Date;
+    updateAT: Date;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -19,5 +29,8 @@ export class AdminService {
 
   getUserStatistics(): Observable<UserStatistics> {
     return this.http.get<UserStatistics>(`${this.baseUrl}/getUserStats`);
+  }
+  getAllusers(): Observable<UserDetails[]>{
+    return this.http.get<UserDetails[]>(`${this.baseUrl}/allusers`);
   }
 }

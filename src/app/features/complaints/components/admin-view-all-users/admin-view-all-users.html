@@ -1,0 +1,51 @@
+<div class="page-container">
+
+  <mat-form-field appearance="fill" style="width: 300px;">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filter Users" />
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ col }}
+        </th>
+
+        <td mat-cell *matCellDef="let user">
+          <ng-container [ngSwitch]="col">
+
+            <span *ngSwitchCase="'createAT'">
+              {{ user.createAT | date:'yyyy-MM-dd HH:mm:ss' }}
+            </span>
+
+            <span *ngSwitchCase="'updateAT'">
+              {{ user.updateAT | date:'yyyy-MM-dd HH:mm:ss' }}
+            </span>
+
+            <span *ngSwitchDefault>
+              {{ user[col] }}
+            </span>
+
+          </ng-container>
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="12">No users found</td>
+      </tr>
+
+    </table>
+
+    <!-- Pagination -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+
+  </div>
+</div>

@@ -17,7 +17,7 @@ export interface Complaint {
   priorityLevel?: number;      // set by AI
   officer?: string;            // officer UUID
   officerNote?: string;
-  complaintAt?: string;
+  complaintAt?: Date;
  }
 
 export interface CreateComplaintPayload {

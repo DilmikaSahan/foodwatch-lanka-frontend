@@ -21,7 +21,7 @@ export const complaintRoutes: Routes = [
         .then(m => m.ComplaintDetail)
   },
   {
-    path: 'viewAllComplaints',
+    path: 'viewAllComplaints/:mode',
     loadComponent: () =>
       import('./components/complaints-view/complaints-view')
         .then(m => m.ComplaintsView)
@@ -36,6 +36,11 @@ export const complaintRoutes: Routes = [
     path: 'adminDashboardMain',
     loadComponent:()=>import('./pages/admin-dashboard-main/admin-dashboard-main')
         .then(m => m.AdminDashboardMain)
+  },
+  {
+    path: 'adminViewAllUsers',
+    loadComponent:()=>import('./components/admin-view-all-users/admin-view-all-users')
+        .then(m => m.AdminViewAllUsers)
   }
 
 ];

@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Navbar } from '../../../shared/components/navbar/navbar';
-import { AdminDashboardMain } from '../../complaints/pages/admin-dashboard-main/admin-dashboard-main';
-
+import{Router,RouterOutlet} from '@angular/router';
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [Navbar, AdminDashboardMain],
+  imports: [Navbar, RouterOutlet],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css',
 })
-export class AdminDashboard {
+export class AdminDashboard implements OnInit{
 
+  constructor(private router:Router) {}
+  ngOnInit() {
+    this.loadDashboardMain();
+
+  }
+  loadDashboardMain(){
+    this.router.navigate(['/admin/complaints/adminDashboardMain']);
+  }
 }

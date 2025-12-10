@@ -67,3 +67,30 @@
 .red-lb h3{
     color : #b92f2fff;
 }
+.button{
+    background-color: #b92f2fe8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+.button-mgOfficer{
+    background-color: #2564ebd3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+.btn:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+}
+   

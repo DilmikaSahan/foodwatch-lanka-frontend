@@ -14,6 +14,6 @@ export class OfficerDashboard {
     this.router.navigate(['/officer/complaints/officerAssignedComplaints']);
   }
   navigateToViewComplaints() {
-    this.router.navigate(['/officer/complaints/viewAllComplaints'], { state: { viewMode: 'all' } });
+    this.router.navigate(['/officer/complaints/viewAllComplaints/all']);
   }
 }

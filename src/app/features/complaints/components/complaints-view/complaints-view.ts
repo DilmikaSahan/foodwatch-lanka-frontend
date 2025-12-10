@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ComplaintsService, Complaint } from '../../services/complaints.service';
 import { KeycloakService } from '../../../../core/auth/services/keycloak';
 import { CommonModule } from '@angular/common';  
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -29,13 +29,22 @@ export class ComplaintsView implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private complaintService: ComplaintsService, private keycloakservice: KeycloakService, private router: Router) {}
+  constructor(private complaintService: ComplaintsService, private keycloakservice: KeycloakService, private route: ActivatedRoute,private router: Router) {}
   roles: string[] = [];
-  privileged: boolean = false;
+
+  isAdmin = false;
+  isOfficer = false;
+  isUser = false;
 
   ngOnInit(): void {
+    const mode = this.route.snapshot.paramMap.get('mode');
+    if(mode){
+      this.viewMode = mode as 'all' | 'assigned' | 'user';
+    }
     this.roles = this.keycloakservice.getRoles();
-    this.privileged = this.roles.some(role => ['admin', 'officer'].includes(role.toLowerCase()));
+    this.isAdmin =this.roles.includes("admin");
+    this.isOfficer = this.roles.includes("officer");
+    this.isUser = this.roles.includes("user");
     this.adjustColumnsByRole();
     this.loadComplaints();
 
@@ -47,23 +56,34 @@ export class ComplaintsView implements AfterViewInit {
   }
 
   loadComplaints() {
-    if(this.viewMode === 'user' && !this.privileged){
-      this.complaintService.getComplaintsByUser().subscribe({
-        next: (complaints) => this.dataSource.data = complaints,
-        error: (err) => console.error('Error fetching complaints', err)
-    });
-    }else if(this.viewMode === 'assigned' && this.privileged){
-      this.complaintService.getComplaintsByAssignedOfficer().subscribe({
-        next: (complaints) => this.dataSource.data = complaints,
-        error: (err) => console.error('Error fetching complaints', err)
-      })
-    }else{
-      this.complaintService.getAllComplaints().subscribe({
-        next: (complaints) => this.dataSource.data = complaints,
-        error: (err) => console.error('Error fetching complaints', err)
-      })
+    switch(this.viewMode){
+      case 'all':
+        if(this.isAdmin || this.isOfficer){
+          this.complaintService.getAllComplaints().subscribe({
+            next: (complaints) => this.dataSource.data = complaints,
+            error: (err) => console.error('Error fetching complaints', err)
+          })
+        } 
+        break;
+      case 'assigned':
+        if(this.isOfficer){
+          this.complaintService.getComplaintsByAssignedOfficer().subscribe({
+            next: (complaints) => this.dataSource.data = complaints,
+            error: (err) => console.error('Error fetching complaints', err)
+          })
+        }
+        break;
+      case 'user':
+        if(this.roles.includes("user")){
+          this.complaintService.getComplaintsByUser().subscribe({
+            next: (complaints) => this.dataSource.data = complaints,
+            error: (err) => console.error('Error fetching complaints', err)
+          })
+        }
+        break;
+      default:
+        console.error('Invalid view mode');
     }
-    
   }
 
   applyFilter(event: Event) {
@@ -76,12 +96,18 @@ export class ComplaintsView implements AfterViewInit {
   }
 
   viewComplaint(complaint: Complaint) {
-    const base = this.privileged ? 'officer' : 'user';
-    this.router.navigate([`${base}/complaints/details`, complaint.complaintId]);
+    if(this.isAdmin){
+      this.router.navigate(['/admin/complaints/details', complaint.complaintId]);
+    }else if(this.isOfficer){
+      this.router.navigate(['/officer/complaints/details', complaint.complaintId]);
+    }else{
+      this.router.navigate(['/user/complaints/details', complaint.complaintId]);
+    }
+
   }
 
   adjustColumnsByRole() {
-    if (this.privileged) {
+    if (this.isAdmin || this.isOfficer) {
       this.displayedColumns = [
         'complaintId',
         'category',

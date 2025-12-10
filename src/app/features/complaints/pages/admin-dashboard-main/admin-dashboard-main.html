@@ -23,6 +23,9 @@
                 <h3>Resolved</h3>
                 <p>{{ stats.resolvedComplaints }}</p>
             </mat-card>
+            <div class="button">
+                <button class="btn btn-primary" (click)="navigateToViewComplaints()" >View All Complaints</button>
+            </div>
         </div>
     </section>
 
@@ -45,6 +48,12 @@
                 <h3>Admins</h3>
                 <p>{{ stats.totalAdmins }}</p>
             </mat-card>
+            <div class="button">
+                <button class="btn btn-primary" (click)="navigateToViewUsers()" >View All Users</button>
+            </div>
+            <div class="button-mgOfficer">
+                <button class="btn btn-primary" (click)="manageOfficers()" >Manage Officers</button>
+            </div>     
         </div>
     </section>
 </div>
